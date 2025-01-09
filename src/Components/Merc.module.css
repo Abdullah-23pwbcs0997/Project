@@ -1,0 +1,191 @@
+.bk_Merc {
+  background-image: url("/images/merc3 (2).jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.MercContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.headingMerc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  font-size: 70px;
+  margin-top: 20px;
+  color: white;
+  font-weight: bold;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.MercSection {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 1200px;
+  background-color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 30px;
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  gap: 20px;
+}
+
+.MercImage {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.MercImage:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+  transition: all 0.3s;
+}
+
+.MercDetails {
+  padding-left: 20px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.MercTitle {
+  font-size: 2rem;
+  font-family: "Oswald", sans-serif;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.MercDescription {
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.MercSpecs {
+  list-style-type: none;
+  padding: 0;
+}
+
+.MercSpecs li {
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.MercSpecs li strong {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: larger;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.mercButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.mercButton:hover {
+  background-color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .MercSection {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .headingMerc {
+    font-size: 2rem;
+    margin-top: 30px;
+  }
+  .MercImage {
+    width: 100%;
+    height: auto;
+  }
+
+  .MercDetails {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .MercTitle {
+    font-size: 2rem;
+  }
+
+  .MercDescription {
+    font-size: 1.2rem;
+  }
+
+  .MercSpecs li {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .MercTitle {
+    font-size: 1.8rem;
+  }
+  .headingMerc {
+    font-size: 2rem;
+    margin-top: 30px;
+  }
+  .mercDescription {
+    font-size: 1.1rem;
+  }
+
+  .MercSpecs li {
+    font-size: 1rem;
+  }
+  .MercImage {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .MercTitle {
+    font-size: 1.5rem;
+  }
+  .headingMerc {
+    font-size: 2rem;
+    margin-top: 30px;
+  }
+  .MercDescription {
+    font-size: 1rem;
+  }
+
+  .MercSpecs li {
+    font-size: 0.9rem;
+  }
+  .MercImage {
+    width: 100%;
+    height: auto;
+  }
+}

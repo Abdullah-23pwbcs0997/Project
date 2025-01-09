@@ -1,0 +1,62 @@
+/* General Navbar Styles */
+.navbar {
+  background-image: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  padding: 0.75rem 1rem;
+
+  width: 100%;
+  top: 0;
+  left: 0;
+  border-bottom: black 2px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff; /* White for brand text */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #ff6600; /* Highlight color on hover */
+}
+
+.nav-link {
+  font-size: 1.2rem;
+  color: grey; /* Light gray for links */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff; /* White on hover */
+}
+
+.nav-link.active {
+  color: #ff6600; /* Highlight active link */
+  font-weight: bold;
+  border-bottom: 2px solid #ff6600; /* Underline active link */
+}
+
+.navbar-toggler {
+  border: none; /* Remove border around toggler */
+  color: #ffffff;
+}
+
+.navbar-toggler-icon {
+  filter: invert(100%); /* Make toggler icon white */
+}
+
+/* Mobile-First Responsive Styles */
+@media (max-width: 768px) {
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .nav-link {
+    margin: 0.5rem 0; /* Add spacing between links on mobile */
+  }
+}
