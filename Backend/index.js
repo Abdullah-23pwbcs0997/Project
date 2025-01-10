@@ -9,6 +9,7 @@ dotenv.config();
 
 const app = express();
 
+// CORS configuration
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -17,20 +18,23 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB connection handler
-let isConnected = false;
+let isConnected = false;  // Track MongoDB connection status
 
 const connectToDatabase = async () => {
   if (isConnected) {
-    return;
+    return; // If already connected, do nothing
   }
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    isConnected = true;
-    console.log('MongoDB Connected');
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    isConnected = true;  // Mark as connected
+    console.log("MongoDB connected successfully");
   } catch (error) {
-    console.error('MongoDB connection error:', error);
-    throw error;
+    console.error("MongoDB connection error:", error);
+    throw new Error("Failed to connect to MongoDB");
   }
 };
 
@@ -42,20 +46,18 @@ app.get("/", (req, res) => {
 // Contact route
 app.post("/api/contact", async (req, res) => {
   try {
-    await connectToDatabase();
-    
+    await connectToDatabase(); // Ensure MongoDB is connected before proceeding
+
     const { name, email } = req.body;
 
     if (!name || !email) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const token = jwt.sign(
-      { email }, 
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    // Generate JWT token
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
+    // Create new contact
     const newContact = new Contact({ name, email });
     await newContact.save();
 
@@ -69,9 +71,10 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// Handle all other routes
+// Catch-all route for unhandled paths
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
+// Export the app as a module for Vercel
 module.exports = app;
