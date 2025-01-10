@@ -18,25 +18,21 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB connection handler
-let isConnected = false;  // Track MongoDB connection status
-
 const connectToDatabase = async () => {
-  if (isConnected) {
-    return; // If already connected, do nothing
-  }
-
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-    isConnected = true;  // Mark as connected
     console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error);
     throw new Error("Failed to connect to MongoDB");
   }
 };
+
+// Connect to MongoDB on startup
+connectToDatabase();
 
 // Home route
 app.get("/", (req, res) => {
@@ -46,8 +42,6 @@ app.get("/", (req, res) => {
 // Contact route
 app.post("/api/contact", async (req, res) => {
   try {
-    await connectToDatabase(); // Ensure MongoDB is connected before proceeding
-
     const { name, email } = req.body;
 
     if (!name || !email) {
