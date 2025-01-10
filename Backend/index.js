@@ -68,4 +68,4 @@ app.post("/api/contact", async (req, res) => {
 });
 
 // Remove the app.listen() call as it's not needed for serverless
-export default app;
+module.exports = app;
