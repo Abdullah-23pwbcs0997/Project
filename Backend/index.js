@@ -9,35 +9,37 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
-// Initialize MongoDB connection
-let cachedDb = null;
+// MongoDB connection handler
+let isConnected = false;
 
-async function connectToDatabase() {
-  if (cachedDb) {
-    return cachedDb;
+const connectToDatabase = async () => {
+  if (isConnected) {
+    return;
   }
-  
+
   try {
-    const connection = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    
-    cachedDb = connection;
-    return cachedDb;
+    await mongoose.connect(process.env.MONGODB_URI);
+    isConnected = true;
+    console.log('MongoDB Connected');
   } catch (error) {
     console.error('MongoDB connection error:', error);
     throw error;
   }
-}
-//home Route
-app.get("/",async (req,res)=>{
-  res.status(200).json({message:"Server is running"})
-})
-// Contact Route
+};
+
+// Home route
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Server is running" });
+});
+
+// Contact route
 app.post("/api/contact", async (req, res) => {
   try {
     await connectToDatabase();
@@ -50,7 +52,7 @@ app.post("/api/contact", async (req, res) => {
 
     const token = jwt.sign(
       { email }, 
-      process.env.JWT_SECRET || 'your-default-secret-key',
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
@@ -67,5 +69,9 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// Remove the app.listen() call as it's not needed for serverless
-module.exports = app;
+// Handle all other routes
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+export default app;

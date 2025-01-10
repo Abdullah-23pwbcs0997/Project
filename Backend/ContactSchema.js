@@ -3,15 +3,18 @@ import mongoose from "mongoose";
 const contactSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, 'Name is required'],
+    trim: true
   },
   email: {
     type: String,
-    required: true,
+    required: [true, 'Email is required'],
+    trim: true,
+    lowercase: true
   },
 });
 
-// Prevent mongoose from creating a new model if it already exists
-const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
+// Check if the model exists before creating a new one
+const Contact = mongoose.models.Contact || mongoose.model('Contact', contactSchema);
 
 export default Contact;
