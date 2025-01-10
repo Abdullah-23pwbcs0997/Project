@@ -55,4 +55,4 @@ app.listen(PORT, () => {
   console.log("Server started successfully");
 });
 
-export default app;
+module.exports = app;
