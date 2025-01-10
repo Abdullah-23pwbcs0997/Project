@@ -1,0 +1,142 @@
+
+
+
+.contact-form {
+  width: 50%;
+  /* background-color: blue; */
+  padding-left: 10px;
+  margin-left: 1rem;
+  padding-left: 30px;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+p {
+  text-align: center;
+  padding: 25px;
+  font-weight: 600;
+  font-size: large;
+  color: silver;
+}
+.input {
+  width: 300px;
+  background: transparent;
+  box-shadow: none;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  padding: 0.3rem;
+  margin: 0.5rem;
+  outline: none;
+  caret-color: white;
+  color: white;
+}
+
+.contact-info {
+  width: 50%;
+  padding-left: 5rem;
+}
+
+.contact-form {
+  width: 50%;
+  padding-left: 10px;
+  margin-left: 1rem;
+  padding-left: 30px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-media {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.social-media a {
+  color: white; /* Default color of icons */
+  margin: 0 15px;
+  font-size: 30px; /* Adjust icon size */
+  text-decoration: none;
+  transition: color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect for icons */
+.social-media a:hover {
+  opacity: 0.7; /* Slight transparency when hovered */
+  transform: scale(1.1); /* Slightly grow the icon on hover */
+}
+
+/* Colorful icons */
+.social-media .fab.fa-instagram {
+  color: #E4405F; /* Instagram Red */
+}
+
+.social-media .fab.fa-facebook {
+  color: #1877F2; /* Facebook Blue */
+}
+
+.social-media .fab.fa-whatsapp {
+  color: #25D366; /* WhatsApp Green */
+}
+
+.social-media .fas.fa-envelope {
+  color: #D44638; /* Gmail Red */
+}
+button{
+  border-radius: 5px;
+  background-color: beige;
+  font: white;
+  border: none;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-info, .contact-form {
+    width: 100%; /* Full width on smaller screens */
+    padding-left: 0; /* Remove extra padding */
+    margin-bottom: 20px; /* Space between contact-info and contact-form */
+  }
+
+  .contact-form {
+    margin-left: 0; /* Remove left margin */
+  }
+
+  .social-media a {
+    font-size: 25px; /* Smaller icons for mobile */
+    margin: 10px 5px; /* Adjust icon spacing */
+  }
+}
+
+/* Mobile Screens */
+@media screen and (max-width: 480px) {
+  .footer {
+    padding: 10px; /* Reduced padding for small screens */
+  }
+
+  .contact-info, .contact-form {
+    width: 100%; /* Full width for both sections */
+    padding-left: 0; /* Remove padding */
+    text-align: center; /* Center-align text */
+  }
+
+  .social-media a {
+    font-size: 20px; /* Even smaller icons for mobile */
+    margin: 5px 10px; /* Smaller margin for mobile */
+  }
+
+  p {
+    font-size: medium; /* Adjust paragraph font size */
+  }
+}

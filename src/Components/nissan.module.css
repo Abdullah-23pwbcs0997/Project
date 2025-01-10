@@ -1,0 +1,194 @@
+.bk_Nissan {
+  background-image: url("/images/nis.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.nissanContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+.headingNissan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  width: 100%;
+  font-size: 80px;
+  color: black;
+  font-weight: bold;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.nissanSection {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 1200px;
+  background-color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 30px;
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.nissanImage {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.nissanImage:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+  transition: all 0.3s ease-in-out;
+}
+
+.nissanDetails {
+  padding-left: 20px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nissanTitle {
+  font-size: 2rem;
+  font-family: "Oswald", sans-serif;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.nissanDescription {
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.nissanSpecs {
+  list-style-type: none;
+  padding: 0;
+}
+
+.nissanSpecs li {
+  font-size: 1rem;
+  font-family: "Lato", sans-serif;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.nissanSpecs li strong {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: larger;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.nissanButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.nissanButton:hover {
+  background-color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .nissanSection {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .headingNissan {
+    font-size: 2rem;
+    margin-top: 20px;
+  }
+  .nissanImage {
+    width: 100%;
+    height: auto;
+  }
+
+  .nissanDetails {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .nissanTitle {
+    font-size: 2rem;
+  }
+
+  .nissanDescription {
+    font-size: 1.2rem;
+  }
+
+  .nissanSpecs li {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nissanTitle {
+    font-size: 1.8rem;
+  }
+  .headingNissan {
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 20px;
+  }
+
+  .nissanDescription {
+    font-size: 1.1rem;
+  }
+
+  .nissanSpecs li {
+    font-size: 1rem;
+  }
+  .nissanImage {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .nissanTitle {
+    font-size: 1.5rem;
+  }
+
+  .headingNissan {
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 20px;
+  }
+  .nissanDescription {
+    font-size: 1rem;
+  }
+
+  .nissanSpecs li {
+    font-size: 0.9rem;
+  }
+  .nissanImage {
+    width: 100%;
+    height: auto;
+  }
+}
