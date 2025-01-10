@@ -1,17 +1,17 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const ContactSchema = new mongoose.Schema({
-  name:{
+const contactSchema = new mongoose.Schema({
+  name: {
     type: String,
-    required: [true, "Name is required"],
-    minlength: [2, "Name must be atleast 3 characters"]
+    required: true,
   },
-  email:{
+  email: {
     type: String,
-    required: [true, "email is required"],
-    unique: true,
-    match: [/\S+@\S+\.\S+/, "Use a valid email"]
-  }
-})
+    required: true,
+  },
+});
 
-export default mongoose.model("contact", ContactSchema)
+// Prevent mongoose from creating a new model if it already exists
+const Contact = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
+
+export default Contact;

@@ -8,35 +8,52 @@ import Contact from "./ContactSchema.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-const mongo_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/contact";
+// Initialize MongoDB connection
+let cachedDb = null;
 
-mongoose
-  .connect(mongo_URI)
-  .then(() => {
-    console.log("MongoDB connected successfully");
-  })
-  .catch((err) => console.error("MongoDB connection error:", err));
-
-// Modified Contact Route - Generate token first, then save contact
-app.post("/api/contact", async (req, res) => {
-  const { name, email } = req.body;
-
+async function connectToDatabase() {
+  if (cachedDb) {
+    return cachedDb;
+  }
+  
   try {
+    const connection = await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    
+    cachedDb = connection;
+    return cachedDb;
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
+  }
+}
+//home Route
+app.get("/",async (req,res)=>{
+  res.status(200).json({message:"Server is running"})
+})
+// Contact Route
+app.post("/api/contact", async (req, res) => {
+  try {
+    await connectToDatabase();
+    
+    const { name, email } = req.body;
+
     if (!name || !email) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Generate JWT Token using the user's email
-    const token = jwt.sign({ email }, process.env.JWT_SECRET || 'your-default-secret-key', {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { email }, 
+      process.env.JWT_SECRET || 'your-default-secret-key',
+      { expiresIn: "1h" }
+    );
 
-    // Create new contact and save it
     const newContact = new Contact({ name, email });
     await newContact.save();
 
@@ -45,14 +62,10 @@ app.post("/api/contact", async (req, res) => {
       token 
     });
   } catch (error) {
-    console.error("Error registering contact:", error.message);
+    console.error("Error:", error.message);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log("Server started successfully");
-});
-
-module.exports = app;
+// Remove the app.listen() call as it's not needed for serverless
+export default app;
