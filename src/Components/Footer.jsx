@@ -1,36 +1,43 @@
-import "./footer.css";
-import axios from "axios";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import './footer.css';
+import axios from 'axios';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Footer = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: '',
+    email: '',
   });
 
-  const handleChange = (data) => {
-    setFormData({ ...formData, [data.target.name]: data.target.value });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (data) => {
-    data.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    // Basic frontend validation
+    if (!formData.name || !formData.email) {
+      toast.error('Name and email are required');
+      return;
+    }
+
     try {
-      console.log(formData);
       const response = await axios.post(
-        "https://vehiclevault1.vercel.app/api/contact",
+        'https://vehiclevault1.vercel.app/api/contact',
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       );
       toast.success(response.data.message);
+      setFormData({ name: '', email: '' }); // Clear the form after successful submission
     } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
+      console.error('Error:', error.response?.data || error.message);
       const errorMessage =
-        error.response?.data?.message || "Error submitting form. Try again";
+        error.response?.data?.message || 'Error submitting form. Try again';
       toast.error(errorMessage);
     }
   };
@@ -61,6 +68,7 @@ const Footer = () => {
                   value={formData.name}
                   onChange={handleChange}
                   className="input"
+                  required
                 />
                 <br />
                 <label htmlFor="email">Email:</label>
@@ -72,6 +80,7 @@ const Footer = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className="input"
+                  required
                 />
                 <br />
                 <button type="submit">Submit</button>
@@ -89,7 +98,7 @@ const Footer = () => {
         >
           <i
             className="fab fa-instagram fa-2x"
-            style={{ color: "#E4405F" }}
+            style={{ color: '#E4405F' }}
           ></i>
         </a>
         <a
@@ -99,7 +108,7 @@ const Footer = () => {
         >
           <i
             className="fab fa-facebook fa-2x"
-            style={{ color: "#1877F2" }}
+            style={{ color: '#1877F2' }}
           ></i>
         </a>
         <a
@@ -109,7 +118,7 @@ const Footer = () => {
         >
           <i
             className="fab fa-whatsapp fa-2x"
-            style={{ color: "#25D366" }}
+            style={{ color: '#25D366' }}
           ></i>
         </a>
         <a
@@ -119,7 +128,7 @@ const Footer = () => {
         >
           <i
             className="fas fa-envelope fa-2x"
-            style={{ color: "#D44638" }}
+            style={{ color: '#D44638' }}
           ></i>
         </a>
       </div>
