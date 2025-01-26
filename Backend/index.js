@@ -1,74 +1,53 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import Contact from "./ContactSchema.js";
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
 
-dotenv.config();
-
+// Initialize Express app
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// CORS configuration
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-// MongoDB connection handler
-const connectToDatabase = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    console.log("MongoDB connected successfully");
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-    throw new Error("Failed to connect to MongoDB");
-  }
-};
-
-// Connect to MongoDB on startup
-connectToDatabase();
-
-// Home route
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "Server is running" });
+// MongoDB Contact Model
+const contactSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true }
 });
 
-// Contact route
-app.post("/api/contact", async (req, res) => {
-  try {
+const Contact = mongoose.model('Contact', contactSchema);
+
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+            console.log("MongoDB connectd successfully");
+        });
+    })
+    .catch(err => console.error(err));
+
+// Contact Route
+app.post('/api/contact', async (req, res) => {
+    console.log("Inside contact controller");
     const { name, email } = req.body;
 
-    if (!name || !email) {
-      return res.status(400).json({ message: "All fields are required" });
+    try {
+        const existingContact = await Contact.findOne({ email });
+        if (existingContact) {
+            return res.status(400).json({ message: 'Email already submitted' });
+        }
+
+        const newContact = new Contact({ name, email });
+        await newContact.save();
+
+        res.status(201).json({ message: 'Contact submitted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
-
-    // Generate JWT token
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-    // Create new contact
-    const newContact = new Contact({ name, email });
-    await newContact.save();
-
-    res.status(200).json({ 
-      message: "Contact data submitted successfully", 
-      token 
-    });
-  } catch (error) {
-    console.error("Error:", error.message);
-    res.status(500).json({ message: "Server error" });
-  }
 });
 
-// Catch-all route for unhandled paths
-app.use("*", (req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
-
-// Export the app as a module for Vercel
 module.exports = app;
