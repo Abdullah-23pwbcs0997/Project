@@ -1,7 +1,7 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 // Initialize Express app
 const app = express();
@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
-            console.log("MongoDB connectd successfully");
+            console.log("MongoDB connected successfully");
         });
     })
     .catch(err => console.error(err));
@@ -50,4 +50,4 @@ app.post('/api/contact', async (req, res) => {
     }
 });
 
-module.exports = app;
+export default app;
