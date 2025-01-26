@@ -29,6 +29,10 @@ mongoose.connect(process.env.MONGODB_URI)
     })
     .catch(err => console.error(err));
 
+    app.get('/',async (req,res)=> {
+        res.status(200).send("Server is running")
+    })
+
 // Contact Route
 app.post('/api/contact', async (req, res) => {
     console.log("Inside contact controller");
