@@ -1,34 +1,53 @@
-import express from "express"
-import mongoose from "mongoose"
-import cors from "cors"
-import User from './ContactSchema.js'
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
 
-const app = express()
-const PORT = 5000
+// Initialize Express app
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-//middleware
-app.use(express.json())
-app.use(cors())
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-const mongo_URI = "mongodb://localhost:27017/contact"
+// MongoDB Contact Model
+const contactSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true }
+});
 
-mongoose.connect(mongo_URI).then(()=>console.log("database connected")).catch((err)=>console.error("database not connected",err))
+const Contact = mongoose.model('Contact', contactSchema);
 
-//routes
-app.post("/contact", async(req, res)=>{
-  console.log('data from frontend:', req.body)
-  const {name, email} = req.body
-  try {
-    if(!name || !email){
-      return res.status(400).json({message:"All feilds are required"})
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+            console.log("MongoDB connected successfully");
+        });
+    })
+    .catch(err => console.error(err));
+
+// Contact Route
+app.post('/api/contact', async (req, res) => {
+    console.log("Inside contact controller");
+    const { name, email } = req.body;
+
+    try {
+        const existingContact = await Contact.findOne({ email });
+        if (existingContact) {
+            return res.status(400).json({ message: 'Email already submitted' });
+        }
+
+        const newContact = new Contact({ name, email });
+        await newContact.save();
+
+        res.status(201).json({ message: 'Contact submitted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
-    const user = new User({name, email})
-    await user.save();
-    res.status(200).json({message:"Data Sent Successfully"})
-  } catch (error) {
-    console.error("Error registering", error.message)
-    res.status(500).json({message:"Try using different credentials"})
-  }
-})
+});
 
-app.listen(PORT, console.log(`server is listening on port ${PORT}`))
+module.exports = app;
