@@ -17,7 +17,7 @@ const Footer = () => {
     data.preventDefault();
     try {
       console.log(formData)
-      const response = await axios.post('http://localhost:3000/api/contact', formData,
+      const response = await axios.post('https://vehiclevault1.vercel.app/api/contact', formData,
         {
           headers: {
             "Content-Type": "application/json",
