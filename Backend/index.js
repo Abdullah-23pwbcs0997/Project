@@ -8,7 +8,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: ['https://vehiclevaultproject.netlify.app',
+        'https://vehiclevault1.vercel.app',
+        `http://localhost:${PORT}`],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 app.use(express.json());
 
 // MongoDB Contact Model
